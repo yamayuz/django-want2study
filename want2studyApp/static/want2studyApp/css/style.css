@@ -1,0 +1,32 @@
+.toast {
+    opacity: 1!important;
+    width: 80%;   
+}
+a {
+    color : inherit;
+    text-decoration : none;
+}
+a:hover {
+    color : inherit;
+}
+.design01 {
+    width: 100%;
+    text-align: left;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+.design01 th {
+    padding: 5px;
+    background: #e9faf9;
+    border: solid 1px #778ca3;
+}
+.design01 td {
+    padding: 5px;
+    border: solid 1px #778ca3;
+}
+.design01 tr td:nth-child(1) {
+    width:30%;
+}
+.wrapper {
+    width: 70%;
+}
