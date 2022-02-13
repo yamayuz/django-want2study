@@ -30,3 +30,8 @@ a:hover {
 .wrapper {
     width: 70%;
 }
+
+/*--------- update.html ---------*/
+.update_form {
+    width: 100%;
+}

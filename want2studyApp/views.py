@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
-from django.views.generic import ListView, DetailView, View
+from django.views.generic import ListView, DetailView, View, DeleteView, UpdateView
 from .models import studyModel
 import datetime
+from django.urls import reverse_lazy
 
 
 class StudylistView(ListView):
@@ -37,3 +38,16 @@ class ChangeFinishView(View):
         
         result.save()
         return redirect('studylist')
+
+
+class DeleteView(DeleteView):
+    template_name = 'delete.html'
+    model = studyModel
+    success_url = reverse_lazy('studylist')
+
+
+class UpdateView(UpdateView):
+    template_name = "update.html"
+    model = studyModel
+    fields = ('title', 'detail', 'category')
+    success_url = reverse_lazy('studylist') 
