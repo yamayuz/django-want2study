@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block style %}
+  <link rel="stylesheet" href="{% static '/want2studyApp/css/style_signup.css' %}">
+{% endblock style %}
+
+{% block content %}
+<p class="logout-message"></p>
+<div class="sign-up-wrapper text-center">
+    <form method="POST">
+        {% csrf_token %}
+
+        <h5>Sign up</h5>
+        <div class="mb-3">
+            {% if error %}
+                <p class="error_message">{{ error|linebreaksbr }}</p>
+            {% endif %}
+            <input type="text" class="form-control" name="username" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="ユーザ名">
+        </div>
+        <div class="mb-3">
+            <input type="password" class="form-control" name="password" id="exampleInputPassword1" placeholder="パスワード">
+        </div>
+        <button type="submit" class="btn btn-primary btn-signup">サインアップ</button>
+        <p class="mt-3"><a href="{% url 'signin' %}">Sign inへ</a></p>
+    </form>
+</div>
+
+{% endblock content %}

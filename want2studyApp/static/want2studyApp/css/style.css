@@ -1,6 +1,6 @@
 .toast {
     opacity: 1!important;
-    width: 80%;   
+    width: 80%;
 }
 a {
     color : inherit;
@@ -34,4 +34,20 @@ a:hover {
 /*--------- update.html ---------*/
 .update_form {
     width: 100%;
+}
+
+/*--------- headder ---------*/
+.form-control-dark {
+    color: #fff;
+    background-color: var(--bs-dark);
+    border-color: var(--bs-gray);
+}
+.form-control-dark:focus {
+    color: #fff;
+    background-color: var(--bs-dark);
+    border-color: #fff;
+    box-shadow: 0 0 0 .25rem rgba(255, 255, 255, .25);
+  }
+.header-wrapper {
+    width: 55%;
 }

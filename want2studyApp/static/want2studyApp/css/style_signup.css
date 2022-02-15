@@ -1,0 +1,33 @@
+body {
+    background-color: #f7f7f7;
+}
+.sign-up-wrapper {
+  width: 370px;
+  margin: 0 auto;
+  border: 1px solid #afafb0;
+  padding: 30px 40px;
+  border-radius: 20px;
+  background-color: #FFFFFF;
+}
+.sign-up-wrapper h5 {
+  margin-bottom: 30px;
+  font-size: 30px;
+}
+.form-control {
+  margin-bottom: 20px;
+  border-radius: 30px;
+}
+.btn-signup {
+  width: 100px;
+  border-radius: 30px;
+  margin-top: 20px;
+}
+.error_message {
+    color: red;
+}
+.logout-message {
+    width: 300px;
+    margin: 80px auto 20px auto;
+    text-align: center;
+    font-size: 25px;
+}
