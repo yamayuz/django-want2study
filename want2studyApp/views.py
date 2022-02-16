@@ -101,20 +101,28 @@ class UpdateView(UpdateView):
 
 class FavoriteView(View):
     def get(self, request, pk):
-        test = {"pk":pk}
+        result_dic = {"pk":pk}
 
         try:
             result = studyModel.objects.get(pk=pk)
             if result.favorite:
                 result.favorite = False
-                test['add_star'] = False
+                result_dic['add_star'] = False
             else:
                 result.favorite = True
-                test['add_star'] = True
+                result_dic['add_star'] = True
             result.save()
-            test['status'] = '0'      
+            result_dic['status'] = '0'      
         except:
-            test['status'] = '1'    
+            result_dic['status'] = '1'    
     
-        json_data = {"result":test}
+        json_data = {"result":result_dic}
         return JsonResponse(json_data)
+
+
+class FavoriteListView(ListView):
+    template_name = 'favorite_list.html'
+
+    def get_queryset(self):
+        current_user = self.request.user
+        return studyModel.objects.filter(user=current_user.username, favorite=True)

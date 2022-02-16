@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block header %}
+
+<header class="p-3 bg-dark text-white">
+  <div class="container header-wrapper">
+    <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+            <li>TODOList</li>
+        </ul>
+
+        <div class="text-end">
+            <a href="{% url 'studylist' %}" class="btn btn-outline-light me-2">TOP</a>
+            <a href="{% url 'logout' %}" class="btn btn-outline-light">Logout</a>
+        </div>
+    </div>
+  </div>
+</header>
+
+{% endblock header %}
+
+{% block content %}
+
+<div class="content-wrapper">
+  <div class="radio-wrapper"></div>
+  {% for study in object_list %}
+
+        <div class="toast my-1" role="alert" aria-live="assertive" aria-atomic="True">
+          <a href="{% url 'detail' study.pk %}">
+            <div class="toast-body">
+                <div class="toast-xontent d-flex justify-content-between">
+                    <div>
+                        <p class="my-0">{{ study.category }} ： {{ study.title }}</p>
+                        <p class="my-0">
+                          {% if study.finishFlg %}
+                              <span class="badge bg-success mb-0">完了</span>
+                          {% else %}
+                              <span class="badge bg-warning text-dark mb-0">未完了</span>
+                          {% endif %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+          </a>
+        </div>
+  {% endfor %}
+</div>
+
+{% endblock content %}
