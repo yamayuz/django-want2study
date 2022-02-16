@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+from django.http.response import JsonResponse
 
 
 class SignupView(View):
@@ -95,4 +96,25 @@ class UpdateView(UpdateView):
     template_name = "update.html"
     model = studyModel
     fields = ('title', 'detail', 'category')
-    success_url = reverse_lazy('studylist') 
+    success_url = reverse_lazy('studylist')
+
+
+class FavoriteView(View):
+    def get(self, request, pk):
+        test = {"pk":pk}
+
+        try:
+            result = studyModel.objects.get(pk=pk)
+            if result.favorite:
+                result.favorite = False
+                test['add_star'] = False
+            else:
+                result.favorite = True
+                test['add_star'] = True
+            result.save()
+            test['status'] = '0'      
+        except:
+            test['status'] = '1'    
+    
+        json_data = {"result":test}
+        return JsonResponse(json_data)

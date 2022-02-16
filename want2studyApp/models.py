@@ -7,6 +7,7 @@ class studyModel(models.Model):
     created = models.DateTimeField()
     user = models.CharField(max_length=100)
     category = models.CharField(max_length=100)
+    favorite = models.BooleanField()
 
     def __str__(self):
         return self.title

@@ -12,7 +12,6 @@
         <div class="text-end">
             <button type="button" class="btn btn-warning me-2">お気に入り</button>
             <a href="{% url 'logout' %}" class="btn btn-outline-light">Logout</a>
-            <!-- <button type="button" class="btn btn-outline-light">Logout</button>  -->
         </div>
     </div>
   </div>
@@ -20,24 +19,41 @@
 
 {% endblock header %}
 
-
-
 {% block content %}
-<div class="container my-5">
+<div class="content-wrapper">
+    <div class="radio-wrapper">
+        <form method="post" action="example.cgi">
+            <input type="radio" name="q1" value="0" checked> すべて<span>　</span>
+            <input type="radio" name="q1" value="1"> 完了<span>　</span>
+            <input type="radio" name="q1" value="2"> 未完了
+        </form>
+    </div>
+
     {% for study in object_list %}
   
-          <div class="toast mx-auto my-1" role="alert" aria-live="assertive" aria-atomic="True">
+          <div class="toast my-1" role="alert" aria-live="assertive" aria-atomic="True">
             <a href="{% url 'detail' study.pk %}">
-              <div class="toast-body d-flex justify-content-between">
-                  <div class="toast-xontent">
-                      <p class="my-0">{{ study.category }} ： {{ study.title }}</p>
-                      <p class="my-0">
-                        {% if study.finishFlg %}
-                            <span class="badge bg-success mb-0">完了</span>
-                        {% else %}
-                            <span class="badge bg-warning text-dark mb-0">未完了</span>
-                        {% endif %}
-                      </p>
+              <div class="toast-body">
+                  <div class="toast-xontent d-flex justify-content-between">
+                      <div>
+                          <p class="my-0">{{ study.category }} ： {{ study.title }}</p>
+                          <p class="my-0">
+                            {% if study.finishFlg %}
+                                <span class="badge bg-success mb-0">完了</span>
+                            {% else %}
+                                <span class="badge bg-warning text-dark mb-0">未完了</span>
+                            {% endif %}
+                          </p>
+                      </div>
+                      <div class="star-wrapper">
+                          <form id="{{ study.id }}" action="{% url 'favorite' study.id %}" method="GET">
+                              {% if study.favorite %}
+                                  <input type="submit" value="&#xf005;" id="star-{{ study.id }}" class="star fa favorite">
+                              {% else %}
+                                  <input type="submit" value="&#xf005;" id="star-{{ study.id }}" class="star fa">
+                              {% endif %}
+                          </form>
+                      </div>
                   </div>
               </div>
             </a>
@@ -50,13 +66,13 @@
         <div class="toast-xontent">
             <form action="" method="POST">
                 {% csrf_token %}
-                <div class="d-flex justify-content-between">
-                    <div class="d-flex flex-row">
-                        <p class="me-3">カテゴリ：<input type="text" id="cal" name="category" value=""></p>
-                        <p>タイトル：<input type="text" id="cal" name="title" value="" width="40%"></p>
+                <div class="d-flex justify-content-between" width="800px">
+                    <div class="d-flex">
+                        <p class="me-3"><input type="text" id="cal" name="category" value="" placeholder="カテゴリ"></p>
+                        <p>:　<input type="text" id="cal" name="title" value="" placeholder="タイトル" class="list-input"></p>
                     </div>
-                    <div class="">
-                        <input class="btn btn-primary" type="submit" value="作成">
+                    <div class="btn-plus-wrapper">
+                        <input class="btn btn-primary fa btn-plus" type="submit" value="&#x2b;">
                     </div>
                 </div>
             </form>
@@ -64,5 +80,35 @@
       </div>
     </div>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script>
+$('form').on('submit', e => {
+    e.preventDefault();
+  
+    let id = '#' + e.target.id
+    let url = $(id).prop("action");
+
+    $.ajax({
+      'url': url,
+      'type': 'GET',
+      'data': {
+          'testdata': 'test',
+      },
+      'dataType': 'json'
+    }).done(response => {
+
+      let result_status = response.result['status']
+      let add_star = response.result['add_star']
+      let current_id = 'star-' + response.result['pk']
+
+      if (result_status == 0 && add_star == true) {
+          document.getElementById(current_id).classList.add('favorite');
+      } else if (result_status == 0 && add_star == false) {
+          document.getElementById(current_id).classList.remove('favorite');
+      }
+    });
+});
+</script>
 
 {% endblock content %}
