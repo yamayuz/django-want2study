@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block header %}
-
 <header class="p-3 bg-dark text-white">
   <div class="container header-wrapper">
     <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
@@ -16,55 +16,54 @@
     </div>
   </div>
 </header>
-
 {% endblock header %}
 
 {% block content %}
 <div class="content-wrapper">
     <div class="radio-wrapper">
-        <form method="post" action="example.cgi">
-            <input type="radio" name="q1" value="0" checked> すべて<span>　</span>
-            <input type="radio" name="q1" value="1"> 完了<span>　</span>
-            <input type="radio" name="q1" value="2"> 未完了
+        <form method="post" action="" id="sort-form">
+            {% csrf_token %}
+            <input type="radio" name="q1" value="0" onclick='radio_click()' id="radio0"> すべて<span>　</span>
+            <input type="radio" name="q1" value="1" onclick='radio_click()' id="radio1"> 完了<span>　</span>
+            <input type="radio" name="q1" value="2" onclick='radio_click()' id="radio2"> 未完了
+            <input type="submit" value="" id="ch_servings_submit" style="display:none;">
         </form>
     </div>
 
     {% for study in object_list %}
-  
-          <div class="toast my-1" role="alert" aria-live="assertive" aria-atomic="True">
-            <a href="{% url 'detail' study.pk %}">
-              <div class="toast-body">
-                  <div class="toast-xontent d-flex justify-content-between">
-                      <div>
-                          <p class="my-0">{{ study.category }} ： {{ study.title }}</p>
-                          <p class="my-0">
-                            {% if study.finishFlg %}
-                                <span class="badge bg-success mb-0">完了</span>
+        <div class="toast my-1" role="alert" aria-live="assertive" aria-atomic="True">
+        <a href="{% url 'detail' study.pk %}">
+            <div class="toast-body">
+                <div class="toast-xontent d-flex justify-content-between">
+                    <div>
+                        <p class="my-0">{{ study.category }} ： {{ study.title }}</p>
+                        <p class="my-0">
+                        {% if study.finishFlg %}
+                            <span class="badge bg-success mb-0">完了</span>
+                        {% else %}
+                            <span class="badge bg-warning text-dark mb-0">未完了</span>
+                        {% endif %}
+                        </p>
+                    </div>
+                    <div class="star-wrapper">
+                        <form id="{{ study.id }}" action="{% url 'favorite' study.id %}" method="GET">
+                            {% if study.favorite %}
+                                <input type="submit" value="&#xf005;" id="star-{{ study.id }}" class="star fa favorite">
                             {% else %}
-                                <span class="badge bg-warning text-dark mb-0">未完了</span>
+                                <input type="submit" value="&#xf005;" id="star-{{ study.id }}" class="star fa">
                             {% endif %}
-                          </p>
-                      </div>
-                      <div class="star-wrapper">
-                          <form id="{{ study.id }}" action="{% url 'favorite' study.id %}" method="GET">
-                              {% if study.favorite %}
-                                  <input type="submit" value="&#xf005;" id="star-{{ study.id }}" class="star fa favorite">
-                              {% else %}
-                                  <input type="submit" value="&#xf005;" id="star-{{ study.id }}" class="star fa">
-                              {% endif %}
-                          </form>
-                      </div>
-                  </div>
-              </div>
-            </a>
-          </div>
-
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </a>
+        </div>
     {% endfor %}
 
     <div class="toast mx-auto my-3" role="alert" aria-live="assertive" aria-atomic="True">
       <div class="toast-body">
         <div class="toast-xontent">
-            <form action="" method="POST">
+            <form action="" method="POST" id="list_add">
                 {% csrf_token %}
                 <div class="d-flex justify-content-between" width="800px">
                     <div class="d-flex">
@@ -80,34 +79,17 @@
       </div>
     </div>
 </div>
-
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="{% static 'want2studyApp/js/list.js' %}"></script>
 <script>
-$('form').on('submit', e => {
-    e.preventDefault();
-  
-    let id = '#' + e.target.id
-    let url = $(id).prop("action");
-
-    $.ajax({
-      'url': url,
-      'type': 'GET',
-      'data': {
-          'testdata': 'test',
-      },
-      'dataType': 'json'
-    }).done(response => {
-
-      let result_status = response.result['status']
-      let add_star = response.result['add_star']
-      let current_id = 'star-' + response.result['pk']
-
-      if (result_status == 0 && add_star == true) {
-          document.getElementById(current_id).classList.add('favorite');
-      } else if (result_status == 0 && add_star == false) {
-          document.getElementById(current_id).classList.remove('favorite');
-      }
-    });
+$(document).ready( function(){
+    if ("{{ sort }}" == '0') {
+        document.getElementById('radio0').checked = true
+    } else if ("{{ sort }}" == '1') {
+        document.getElementById('radio1').checked = true
+    } else if ("{{ sort }}" == '2') {
+        document.getElementById('radio2').checked = true
+    }
 });
 </script>
 

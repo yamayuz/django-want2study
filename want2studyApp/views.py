@@ -52,19 +52,38 @@ class StudylistView(ListView):
 
     def get_queryset(self):
         current_user = self.request.user
-        return studyModel.objects.filter(user=current_user.username)
+        if 'q1' in self.request.POST and self.request.POST["q1"] == '1':
+            return studyModel.objects.filter(user=current_user.username, finishFlg=True)
+        elif 'q1' in self.request.POST and self.request.POST["q1"] == '2':
+            return studyModel.objects.filter(user=current_user.username, finishFlg=False)
+        else:
+            return studyModel.objects.filter(user=current_user.username)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        if 'q1' in self.request.POST:
+            context['sort'] = self.request.POST["q1"]
+        else:
+            context['sort'] = '0'
+        return context
 
     def post(self, request):
-        current_user = self.request.user
-        models = studyModel(
-                        title = request.POST["title"], 
-                        detail = "",
-                        finishFlg = False,
-                        created = datetime.datetime.now(),
-                        user = current_user.username,
-                        category = request.POST["category"]
-                        )
-        models.save()
+        print(request.POST)
+
+        if 'q1' in request.POST:
+            print('ラジオボタン')
+        else:
+            current_user = self.request.user
+            models = studyModel(
+                            title = request.POST["title"], 
+                            detail = "",
+                            finishFlg = False,
+                            created = datetime.datetime.now(),
+                            user = current_user.username,
+                            category = request.POST["category"],
+                            favorite = False
+                            )
+            models.save()
         return self.get(request)
 
 

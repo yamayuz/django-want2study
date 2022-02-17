@@ -14,6 +14,5 @@ urlpatterns = [
     path('delete/<int:pk>', DeleteView.as_view(), name='delete'),
     path('update/<int:pk>', UpdateView.as_view(), name='update'),
     path('favorite/<int:pk>', FavoriteView.as_view(), name='favorite'),
-    path('favorite/<int:pk>', FavoriteView.as_view(), name='favorite'),
     path('favorite_list/', FavoriteListView.as_view(), name='favorite_list'),
 ] 
