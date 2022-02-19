@@ -8,6 +8,7 @@ class studyModel(models.Model):
     user = models.CharField(max_length=100)
     category = models.CharField(max_length=100)
     favorite = models.BooleanField()
+    deadline = models.DateTimeField()
 
     def __str__(self):
         return self.title

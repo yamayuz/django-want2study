@@ -10,8 +10,8 @@
         </ul>
 
         <div class="text-end">
-            <button type="button" class="btn btn-warning me-2">お気に入り</button>
-            <button type="button" class="btn btn-outline-light">Logout</button> 
+            <a href="{% url 'studylist' %}" class="btn btn-outline-light me-2">TOP</a>
+            <a href="{% url 'logout' %}" class="btn btn-outline-light">Logout</a>
         </div>
     </div>
   </div>
@@ -20,37 +20,91 @@
 {% endblock header %}
 
 {% block content %}
-<div class="wrapper mx-auto my-5">
-    <div class="d-flex mb-2">
-        <h5 class="mb-0 me-1">{{ object.title }}</h5>
-        {% if object.finishFlg %}
-            <span class="badge bg-success mb-0">完了</span>
-        {% else %}
-            <span class="badge bg-warning text-dark mb-0">未完了</span>
-        {% endif %}
+<div class="content-wrapper">
+    <div class="alert alert-secondary detail-title-wrapper p-2 d-flex justify-content-between" role="alert">
+        <div class="block1">
+            <i class="fa-solid fa-list-check fa-2x todo"></i>
+            <h5 class="ms-2 mb-0">{{ object.title }}</h5>
+        </div>
+        <div class="block2">
+            <a href="{% url 'update' object.pk %}" class="btn btn-success me-1" tabindex="-1" role="button" aria-disabled="true">
+                <i class="fa-solid fa-pen me-2"></i>編集
+            </a>
+            <a href="{% url 'delete' object.pk %}" class="btn btn-danger me-1" tabindex="-1" role="button" aria-disabled="true">
+                <i class="fa-solid fa-trash me-2"></i>削除
+            </a>
+            {% if object.finishFlg %}
+                <a href="{% url 'changefinish' object.pk %}" class="btn btn-primary" tabindex="-1" role="button" aria-disabled="true">
+                    <i class="fa-solid fa-xmark me-2"></i>未完了
+                </a>
+            {% else %}
+                <a href="{% url 'changefinish' object.pk %}" class="btn btn-primary" tabindex="-1" role="button" aria-disabled="true">
+                    <i class="fa-solid fa-check me-2"></i>完了
+                </a>
+            {% endif%}
+        </div>
     </div>
-    <table class="design01 mb-3">
-      <tr>
-      <td>内容</td>
-      <td>{{ object.detail }}</td>
-      </tr>
-      <tr>
-      <td>登録日</td>
-      <td>{{ object.created }}</td>
-      </tr>
-      <tr>
-      <td>カテゴリー</td>
-      <td>{{ object.category }}</td>
-      </tr>
-    </table>
-    <a href="{% url 'update' object.pk %}" class="btn btn-primary" tabindex="-1" role="button" aria-disabled="true">編集</a>
-    {% if object.finishFlg %}
-        <a href="{% url 'changefinish' object.pk %}" class="btn btn-success" tabindex="-1" role="button" aria-disabled="true">未完了にする</a>
-    {% else %}
-        <a href="{% url 'changefinish' object.pk %}" class="btn btn-success" tabindex="-1" role="button" aria-disabled="true">完了にする</a>
-    {% endif%}
-    <a href="{% url 'delete' object.pk %}" class="btn btn-danger" tabindex="-1" role="button" aria-disabled="true">削除</a>
-    <a href="{% url 'studylist' %}" class="btn btn-secondary" tabindex="-1" role="button" aria-disabled="true">一覧へ戻る</a>
+    <div class="detail-wrapper">
+        <table class="table">
+            <tbody>
+              <tr>
+                <td><h5 class="mb-0">詳細</h5></td>
+              </tr>
+              <tr>
+                <td>
+                    <span class="sub-title">内容</span><br>
+                    {{ object.detail }}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                    <span class="sub-title">カテゴリ</span><br>
+                    {{ object.category }}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                    <span class="sub-title">状態</span><br>
+                    {% if object.finishFlg %}
+                        完了
+                    {% else %}
+                        未完了
+                    {% endif %}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                    <span class="sub-title">登録日</span><br>
+                    {{ object.created }}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                    <span class="sub-title">期日</span><br>
+                    {{ object.deadline }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+    </div>
 </div>
+
+<div class="modal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Modal title</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>Modal body text goes here.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
 {% endblock content %}
