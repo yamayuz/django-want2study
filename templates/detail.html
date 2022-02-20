@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 
 {% block header %}
-
 <header class="p-3 bg-dark text-white">
   <div class="container header-wrapper">
     <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
@@ -16,7 +15,6 @@
     </div>
   </div>
 </header>
-
 {% endblock header %}
 
 {% block content %}
@@ -30,7 +28,7 @@
             <a href="{% url 'update' object.pk %}" class="btn btn-success me-1" tabindex="-1" role="button" aria-disabled="true">
                 <i class="fa-solid fa-pen me-2"></i>編集
             </a>
-            <a href="{% url 'delete' object.pk %}" class="btn btn-danger me-1" tabindex="-1" role="button" aria-disabled="true">
+            <a href="" data-deleteurl="{% url 'delete' object.pk %}" class="btn btn-danger me-1 delete-modal-button" tabindex="-1" role="button" aria-disabled="true" data-bs-toggle="modal" data-bs-target="#exampleModal">
                 <i class="fa-solid fa-trash me-2"></i>削除
             </a>
             {% if object.finishFlg %}
@@ -89,22 +87,34 @@
     </div>
 </div>
 
-<div class="modal" tabindex="-1">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Modal title</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <p>Modal body text goes here.</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
-        </div>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">このタスクを削除してよろしいですか？</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-footer">
+        <form method="POST" action="" id="delete-form">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">削除</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
+        </form>
       </div>
     </div>
   </div>
+</div>
+
+<script>
+    const deleteModalButtons = document.getElementsByClassName('delete-modal-button');
+    const deleteForm = document.getElementById('delete-form');
+
+    for (const button of deleteModalButtons) {
+      button.addEventListener('click', () => {
+          deleteForm.action = button.dataset.deleteurl;
+      });
+    }
+</script>
 
 {% endblock content %}

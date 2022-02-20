@@ -102,11 +102,10 @@ class ChangeFinishView(View):
             result.finishFlg = True
         
         result.save()
-        return redirect('studylist')
+        return redirect('detail', pk=pk)
 
 
 class DeleteView(DeleteView):
-    template_name = 'delete.html'
     model = studyModel
     success_url = reverse_lazy('studylist')
 
