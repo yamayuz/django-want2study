@@ -101,6 +101,10 @@ a:hover {
 }
 
 /*--------- headder ---------*/
+/* header {
+    position: fixed;
+    z-index: 10;
+} */
 .form-control-dark {
     color: #fff;
     background-color: var(--bs-dark);

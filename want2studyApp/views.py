@@ -76,12 +76,13 @@ class StudylistView(ListView):
             current_user = self.request.user
             models = studyModel(
                             title = request.POST["title"], 
-                            detail = "",
+                            detail = "　",
                             finishFlg = False,
                             created = datetime.datetime.now(),
                             user = current_user.username,
                             category = request.POST["category"],
-                            favorite = False
+                            favorite = False,
+                            deadline = datetime.datetime.now(),
                             )
             models.save()
         return self.get(request)
@@ -110,11 +111,14 @@ class DeleteView(DeleteView):
     success_url = reverse_lazy('studylist')
 
 
-class UpdateView(UpdateView):
-    template_name = "update.html"
-    model = studyModel
-    fields = ('title', 'detail', 'category')
-    success_url = reverse_lazy('studylist')
+class UpdateView(View):
+    def post(self, request, pk):
+        result = studyModel.objects.get(pk=pk)
+        result.detail = request.POST["detail"]
+        result.category = request.POST["category"]
+        result.deadline = request.POST["deadline"]
+        result.save()
+        return redirect('detail', pk=pk)
 
 
 class FavoriteView(View):

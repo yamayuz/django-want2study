@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block header %}
-<header class="p-3 bg-dark text-white">
+<header class="p-3 bg-dark text-white sticky-top">
   <div class="container header-wrapper">
     <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
         <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
@@ -25,24 +25,26 @@
             <h5 class="ms-2 mb-0">{{ object.title }}</h5>
         </div>
         <div class="block2">
-            <a href="{% url 'update' object.pk %}" class="btn btn-success me-1" tabindex="-1" role="button" aria-disabled="true">
+            <button type="button" id="edit-save-button" class="btn btn-success me-1 form-edit-button" data-editurl="{% url 'update' object.pk %}" tabindex="-1" role="button" aria-disabled="true">
                 <i class="fa-solid fa-pen me-2"></i>編集
-            </a>
-            <a href="" data-deleteurl="{% url 'delete' object.pk %}" class="btn btn-danger me-1 delete-modal-button" tabindex="-1" role="button" aria-disabled="true" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                <i class="fa-solid fa-trash me-2"></i>削除
-            </a>
+            </button>
             {% if object.finishFlg %}
-                <a href="{% url 'changefinish' object.pk %}" class="btn btn-primary" tabindex="-1" role="button" aria-disabled="true">
+                <a href="{% url 'changefinish' object.pk %}" class="btn btn-primary me-1" tabindex="-1" role="button" aria-disabled="true">
                     <i class="fa-solid fa-xmark me-2"></i>未完了
                 </a>
             {% else %}
-                <a href="{% url 'changefinish' object.pk %}" class="btn btn-primary" tabindex="-1" role="button" aria-disabled="true">
+                <a href="{% url 'changefinish' object.pk %}" class="btn btn-primary me-1" tabindex="-1" role="button" aria-disabled="true">
                     <i class="fa-solid fa-check me-2"></i>完了
                 </a>
             {% endif%}
+            <a href="" data-deleteurl="{% url 'delete' object.pk %}" class="btn btn-danger me-1 delete-modal-button" tabindex="-1" role="button" aria-disabled="true" data-bs-toggle="modal" data-bs-target="#exampleModal">
+              <i class="fa-solid fa-trash me-2"></i>削除
+            </a>
         </div>
     </div>
     <div class="detail-wrapper">
+      <form method="POST" name="edit_form" id="edit-form" action="">
+        {% csrf_token %}
         <table class="table">
             <tbody>
               <tr>
@@ -51,13 +53,13 @@
               <tr>
                 <td>
                     <span class="sub-title">内容</span><br>
-                    {{ object.detail }}
+                    <div id="contents-detail">{{ object.detail | linebreaksbr }}</div>
                 </td>
               </tr>
               <tr>
                 <td>
                     <span class="sub-title">カテゴリ</span><br>
-                    {{ object.category }}
+                    <div id="contents-category">{{ object.category }}</div>
                 </td>
               </tr>
               <tr>
@@ -79,11 +81,12 @@
               <tr>
                 <td>
                     <span class="sub-title">期日</span><br>
-                    {{ object.deadline }}
+                    <div id="contents-deadline">{{ object.deadline }}</div>
                 </td>
               </tr>
             </tbody>
           </table>
+      </form>
     </div>
 </div>
 
@@ -98,23 +101,56 @@
       <div class="modal-footer">
         <form method="POST" action="" id="delete-form">
             {% csrf_token %}
-            <button type="submit" class="btn btn-danger">削除</button>
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
+            <button type="submit" class="btn btn-danger">削除</button>
         </form>
       </div>
     </div>
   </div>
 </div>
 
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 <script>
+/* モーダル処理 */  
+$('.delete-modal-button').click(function(){
+    
     const deleteModalButtons = document.getElementsByClassName('delete-modal-button');
     const deleteForm = document.getElementById('delete-form');
 
     for (const button of deleteModalButtons) {
-      button.addEventListener('click', () => {
-          deleteForm.action = button.dataset.deleteurl;
-      });
+        console.log(button.dataset.deleteurl);
+        deleteForm.action = button.dataset.deleteurl;
     }
+});
+
+/* 編集ボタン押下 */
+$('body').on( 'click', '.form-edit-button', function() {
+
+    let size = document.getElementById("contents-detail").clientHeight + 30;
+    
+    $('#contents-detail').html('<textarea type="text" id="input_detail" class="update_form" name="detail">{{ object.detail | linebreaksbr }}</textarea>'.replace(/<br>/g , '\n'));
+    $('#contents-category').html('<textarea type="text" class="update_form" name="category">{{ object.category }}</textarea>');
+    $('#contents-deadline').html('<input type="datetime-local" name="deadline" value="{{ object.deadline | date:"Y-m-d\TH:i" }}" />');
+
+    document.getElementById("input_detail").style.height = `${size}px`;
+
+    /* 編集ボタンの書き換え */
+    $('.form-edit-button').html('<i class="fa-solid fa-floppy-disk me-2"></i>保存');
+    document.querySelector('#edit-save-button').classList.remove('form-edit-button');
+    document.querySelector('#edit-save-button').classList.add('form-save-button');
+});
+
+/* 保存ボタン押下 */
+$('body').on( 'click', '.form-save-button', function() {
+    const saveButton = document.getElementsByClassName('form-save-button');
+    const editForm = document.getElementById('edit-form');
+    
+    for (const button of saveButton) {
+        console.log(button.dataset.editurl);
+        editForm.action = button.dataset.editurl;
+    }
+    document.edit_form.submit();
+});
 </script>
 
 {% endblock content %}
