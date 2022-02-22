@@ -68,8 +68,6 @@ class StudylistView(ListView):
         return context
 
     def post(self, request):
-        print(request.POST)
-
         if 'q1' in request.POST:
             print('ラジオボタン')
         else:
@@ -148,3 +146,8 @@ class FavoriteListView(ListView):
     def get_queryset(self):
         current_user = self.request.user
         return studyModel.objects.filter(user=current_user.username, favorite=True)
+
+    def post(self, request):
+        favorite_list = studyModel.objects.filter(user=self.request.user, favorite=True)
+        favorite_list.update(favorite=False)
+        return self.get(request)

@@ -22,7 +22,15 @@
 {% block content %}
 
 <div class="content-wrapper">
-  <div class="radio-wrapper"></div>
+  <div class="favorite-button-wrapper">
+      <form method="POST">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-outline-secondary">お気に入りを全て解除</button>
+      </form>
+  </div>
+  {% if object_list|length == 0 %}
+      <p class="favorite-none">お気に入りに登録されているタスクはありません。</p>
+  {% endif %}
   {% for study in object_list %}
 
         <div class="toast my-1" role="alert" aria-live="assertive" aria-atomic="True">
