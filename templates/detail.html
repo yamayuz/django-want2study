@@ -2,43 +2,42 @@
 
 {% block header %}
 <header class="p-3 bg-dark text-white sticky-top">
-  <div class="container header-wrapper">
-    <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-            <li>TODOList</li>
-        </ul>
-
-        <div class="text-end">
-            <a href="{% url 'studylist' %}" class="btn btn-outline-light me-2">TOP</a>
-            <a href="{% url 'logout' %}" class="btn btn-outline-light">Logout</a>
+    <div class="header-wrapper">
+        <div class="row">
+            <div class="header-title col-12 col-md-6">
+                <p>TODO List</p>
+            </div>
+            <div class="col-12 col-md-6 text-end">
+                <a href="{% url 'studylist' %}" class="btn btn-outline-light me-2">TOP</a>
+                <a href="{% url 'logout' %}" class="btn btn-outline-light">Logout</a>
+            </div>
         </div>
     </div>
-  </div>
 </header>
 {% endblock header %}
 
 {% block content %}
 <div class="content-wrapper">
-    <div class="alert alert-secondary detail-title-wrapper p-2 d-flex justify-content-between" role="alert">
-        <div class="block1">
+    <div class="title-wrapper alert alert-secondary row">
+        <div class="title col-12 col-lg-6 d-flex flex-row">
             <i class="fa-solid fa-list-check fa-2x todo"></i>
-            <h5 class="ms-2 mb-0">{{ object.title }}</h5>
+            <h5 class="title-text">{{ object.title }}</h5>
         </div>
-        <div class="block2">
-            <button type="button" id="edit-save-button" class="btn btn-success me-1 form-edit-button" data-editurl="{% url 'update' object.pk %}" tabindex="-1" role="button" aria-disabled="true">
+        <div class="title-button col-12 col-lg-6">
+            <button type="button" id="edit-save-button" class="btn btn-success me-1 form-edit-button detail-button" data-editurl="{% url 'update' object.pk %}" tabindex="-1" role="button" aria-disabled="true">
                 <i class="fa-solid fa-pen me-2"></i>編集
             </button>
             {% if object.finishFlg %}
-                <a href="{% url 'changefinish' object.pk %}" class="btn btn-primary me-1" tabindex="-1" role="button" aria-disabled="true">
-                    <i class="fa-solid fa-xmark me-2"></i>未完了
-                </a>
+            <a href="{% url 'changefinish' object.pk %}" class="btn btn-primary me-1 detail-button" tabindex="-1" role="button" aria-disabled="true">
+                <i class="fa-solid fa-xmark me-2"></i>未完了
+            </a>
             {% else %}
-                <a href="{% url 'changefinish' object.pk %}" class="btn btn-primary me-1" tabindex="-1" role="button" aria-disabled="true">
-                    <i class="fa-solid fa-check me-2"></i>完了
-                </a>
+            <a href="{% url 'changefinish' object.pk %}" class="btn btn-primary me-1 detail-button" tabindex="-1" role="button" aria-disabled="true">
+                <i class="fa-solid fa-check me-2"></i>完了
+            </a>
             {% endif%}
-            <a href="" data-deleteurl="{% url 'delete' object.pk %}" class="btn btn-danger me-1 delete-modal-button" tabindex="-1" role="button" aria-disabled="true" data-bs-toggle="modal" data-bs-target="#exampleModal">
-              <i class="fa-solid fa-trash me-2"></i>削除
+            <a href="" data-deleteurl="{% url 'delete' object.pk %}" class="btn btn-danger me-1 delete-modal-button detail-button" tabindex="-1" role="button" aria-disabled="true" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                <i class="fa-solid fa-trash me-2"></i>削除
             </a>
         </div>
     </div>

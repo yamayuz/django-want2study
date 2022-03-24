@@ -1,4 +1,17 @@
-/*--------- list ---------*/
+/* ------------------------- 
+   ------- studylist ------- */
+.toast-form {
+    margin: 0;
+}
+.category-input,
+.title-input,
+.add-list-btn {
+    display: inline-block;
+    padding: 0;
+}
+.list-input {
+    width: 100%;
+}
 .content-wrapper {
     width: 60%;
     margin: 0 auto 100px auto;
@@ -16,9 +29,6 @@ a {
 }
 a:hover {
     color : inherit;
-}
-.list-input {
-    width: 300px;
 }
 .btn-plus-wrapper {
     margin-top: 3px;
@@ -46,13 +56,23 @@ a:hover {
     color: #E6DA00;
 }
 
-/*--------- detail ---------*/
+
+/* ------------------------- 
+   ------- detail ------- */
+.title-wrapper {
+    margin: 30px 0 10px 0;
+    padding: 0;
+}
+.title {
+    padding: 7px 0 7px 7px;
+}
+.title-text,
+.title-button {
+    padding:15px 7px 10px 7px;
+    margin-bottom: 0;
+}
 .detail-title-wrapper {
     margin: 30px 0 10px 0;
-}
-.block1, .block2 {
-    display: flex;
-    align-items: center;
 }
 .todo {
     color: white; 
@@ -69,57 +89,111 @@ a:hover {
     font-size: 90%;
     color: #778ca3;
 }
-
-
-
-
-.design01 {
-    width: 100%;
-    text-align: left;
-    border-collapse: collapse;
-    border-spacing: 0;
-}
-.design01 th {
-    padding: 5px;
-    background: #e9faf9;
-    border: solid 1px #778ca3;
-}
-.design01 td {
-    padding: 5px;
-    border: solid 1px #778ca3;
-}
-.design01 tr td:nth-child(1) {
-    width:30%;
-}
-.wrapper {
-    width: 70%;
-}
-
-/*--------- update.html ---------*/
 .update_form {
     width: 100%;
 }
 
-/*--------- headder ---------*/
-.form-control-dark {
-    color: #fff;
-    background-color: var(--bs-dark);
-    border-color: var(--bs-gray);
-}
-.form-control-dark:focus {
-    color: #fff;
-    background-color: var(--bs-dark);
-    border-color: #fff;
-    box-shadow: 0 0 0 .25rem rgba(255, 255, 255, .25);
-  }
+
+/* ------------------------- 
+   ------- header ------- */
 .header-wrapper {
-    width: 55%;
+    width: 60%;
+    margin: 0 auto;
+}
+.header-title {
+    line-height: 40px;
+}
+.header-title p {
+    margin: 0;
+    vertical-align: middle;
 }
 
-/*--------- favorite-list ---------*/
+
+/* ------------------------- 
+   ---- favorite-list ---- */
 .favorite-button-wrapper {
     margin: 30px 0 20px 0;
 }
 .favorite-none {
     font-size: 1.5rem;
+}
+
+
+@media screen and (max-width: 576px) {
+    /* studylist */
+    .category-input {
+        margin: 8px 0 3px 0;
+        padding: 0 10px;
+    }
+    .title-input {
+        margin: 2.5px 0 7px 0;
+        padding: 0 10px;
+    }
+    .add-list-btn {
+        width: 100%!important;
+        margin-bottom: 10px;
+    }
+
+    /* detail */
+    .detail-button {
+        width: 100%;
+    }
+    .title-button {
+        text-align: center;
+    }
+    .detail-button {
+        display: block;
+        margin-bottom: 5px;
+    }
+}
+@media screen and (min-width: 576px) and (max-width: 992px) {
+    /* studylist */
+    .category-input {
+        margin: 10px 0 10px 0;
+        padding: 0 2.5px 0 10px;
+        line-height: 32px;
+    }
+    .title-input {
+        margin: 10px 0 10px 0;
+        padding: 0 2.5px 0 2.5px;
+        line-height: 32px;
+    }
+    .add-list-btn {
+        width: 100%!important;
+        margin: 10px 0 10px 0;
+        padding: 0 10px 0 2.5px;
+    }
+    .list-input {
+        vertical-align: middle;
+    }
+
+    /* detail */
+    .detail-button {
+        width: 31%;
+    }
+    .title-button {
+        text-align: center;
+    }
+}
+@media screen and (min-width: 992px) {
+    /* studylist */
+    .category-input {
+        margin: 10px 0 10px 0;
+        padding: 0 2.5px 0 10px;
+        line-height: 29px;
+    }
+    .title-input {
+        margin: 10px 0 10px 0;
+        padding: 0 2.5px 0 2.5px;
+        line-height: 29px;
+    }
+    .add-list-btn {
+        width: 100%!important;
+        margin: 10px 0 10px 0;
+    }
+
+    /* detail */
+    .title-button {
+        text-align: right;
+    }
 }

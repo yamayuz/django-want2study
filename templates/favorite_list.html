@@ -1,26 +1,22 @@
 {% extends 'base.html' %}
 
 {% block header %}
-
 <header class="p-3 bg-dark text-white sticky-top">
-  <div class="container header-wrapper">
-    <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-            <li>TODOList</li>
-        </ul>
-
-        <div class="text-end">
-            <a href="{% url 'studylist' %}" class="btn btn-outline-light me-2">TOP</a>
-            <a href="{% url 'logout' %}" class="btn btn-outline-light">Logout</a>
-        </div>
-    </div>
+  <div class="header-wrapper">
+      <div class="row">
+          <div class="header-title col-12 col-md-6">
+              <p>TODO List</p>
+          </div>
+          <div class="col-12 col-md-6 text-end">
+              <a href="{% url 'studylist' %}" class="btn btn-outline-light me-2">TOP</a>
+              <a href="{% url 'logout' %}" class="btn btn-outline-light">Logout</a>
+          </div>
+      </div>
   </div>
 </header>
-
 {% endblock header %}
 
 {% block content %}
-
 <div class="content-wrapper">
   <div class="favorite-button-wrapper">
       <form method="POST">
