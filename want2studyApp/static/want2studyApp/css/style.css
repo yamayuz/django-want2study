@@ -12,10 +12,6 @@
 .list-input {
     width: 100%;
 }
-.content-wrapper {
-    width: 60%;
-    margin: 0 auto 100px auto;
-}
 .radio-wrapper {
     margin: 30px 0 10px 0;
 }
@@ -133,6 +129,10 @@ a:hover {
         width: 100%!important;
         margin-bottom: 10px;
     }
+    .content-wrapper {
+        width: 90%;
+        margin: 0 auto 100px auto;
+    }
 
     /* detail */
     .detail-button {
@@ -166,6 +166,10 @@ a:hover {
     .list-input {
         vertical-align: middle;
     }
+    .content-wrapper {
+        width: 90%;
+        margin: 0 auto 100px auto;
+    }
 
     /* detail */
     .detail-button {
@@ -190,6 +194,10 @@ a:hover {
     .add-list-btn {
         width: 100%!important;
         margin: 10px 0 10px 0;
+    }
+    .content-wrapper {
+        width: 60%;
+        margin: 0 auto 100px auto;
     }
 
     /* detail */
